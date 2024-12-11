@@ -19,11 +19,18 @@
 #
 # rubocop:disable Layout/SpaceInsideArrayLiteralBrackets
 class User < ApplicationRecord
-  # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  has_many :pets, dependent: :destroy
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
   enum role: { normal_user: 0, admin: 1 }
+
+  def admin?
+    role == "admin"
+  end
+
+  def normal_user?
+    role == "normal_user"
+  end
 
   has_one_attached :profile_image     # (para una sola imagen, si necesito más --> as_many_attached :images)
 

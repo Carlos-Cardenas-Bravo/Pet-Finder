@@ -18,12 +18,15 @@
       <% end %>
     </div>
 
-    <!-- Botón para agregar nueva mascota -->
-    <div class="buttons is-centered mt-5">
-      <%= link_to "Nueva Mascota", new_pet_path, class: "button is-primary" %>
-    </div>
+    <!-- Botón para agregar nueva mascota (solo si el usuario está autenticado) -->
+    <% if user_signed_in? %>
+      <div class="buttons is-centered mt-5">
+        <%= link_to "Nueva Mascota", new_pet_path, class: "button is-primary" %>
+      </div>
+    <% end %>
 
     <!-- Paginación -->
-    <%== pagy_nav(@pagy) if @pagy.pages > 1 %>
+    <%== pagy_bulma_nav(@pagy) if @pagy.pages > 1 %>
   </div>
 </section>
+

@@ -5,6 +5,7 @@ class Pet < ApplicationRecord
   belongs_to :city
   has_and_belongs_to_many :qualities
   has_many_attached :photos # Cambiado a `photos` para consistencia con el seed
+  before_destroy :ensure_admin_can_destroy
 
   # Método para manejar la imagen por defecto si no hay fotos subidas
   def default_image
@@ -18,6 +19,12 @@ class Pet < ApplicationRecord
   # Validaciones
   validates :name, :description, :found_on, :city, presence: true
   validates :contact_email, format: { with: URI::MailTo::EMAIL_REGEXP }
+
+  private
+
+  def ensure_admin_can_destroy
+    throw(:abort) unless User.current_user&.admin?
+  end
 end
 
 

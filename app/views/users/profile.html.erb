@@ -1,31 +1,53 @@
 <section class="section">
-    <div class="container">
-      <div class="card">
-        <header class="card-header">
-          <p class="title is-4">
-            Perfil de <%= @user.nombre %> <%= @user.apellido %></p>
-          </p>
-        </header>
-        <div class="card-content">
-          <figure>
-              <%= image_tag @user.resized_profile_image, alt: "Imagen de Perfil" %>
-          </figure>
+  <div class="container">
+    <div class="card">
+      <!-- Cabecera del perfil -->
+      <header class="card-header">
+        <p class="title is-4">
+          Perfil de <%= @user.nombre %>
+        </p>
+      </header>
 
-          <div class="content mt-4">
-            <p class="subtitle is-6"><strong>Email:</strong> <%= @user.email %></p>
-            <p><strong>Rol:</strong> <%= @user.role.humanize %></p>
-            <p><strong>Edad:</strong> <%= @user.edad %></p>
-            <p><strong>Sexo:</strong> <%= @user.sexo %></p>
-            <p><strong>Recibe actualizaciones:</strong> <%= @user.receive_updates ? "Sí" : "No" %></p>
-          </div>
+      <!-- Contenido principal del perfil -->
+      <div class="card-content">
+        <!-- Imagen de perfil -->
+        <figure class="image is-128x128 is-inline-block">
+          <%= image_tag @user.resized_profile_image, alt: "Imagen de Perfil", class: "is-rounded" %>
+        </figure>
+
+        <!-- Información del usuario -->
+        <div class="content mt-4">
+          <p class="subtitle is-6"><strong>Email:</strong> <%= @user.email %></p>
+          <p><strong>Teléfono:</strong> <%= @user.phone %></p>
+          <p><strong>Rol:</strong> <%= @user.admin? ? "Administrador" : "Usuario Normal" %></p>
         </div>
-        <div class="card-content">
-          <div class="buttons">
-            <%= link_to "Editar perfil", edit_user_registration_path, class: "button is-link" %>
-            <%= button_to "Salir", destroy_user_session_path, method: :delete, data: { confirm: "¿Estás seguro de que deseas salir?" }, class: "button is-danger" %>
-          </div>
+      </div>
+
+      <!-- Lista de mascotas creadas por el usuario -->
+      <div class="card-content">
+        <h2 class="subtitle is-5">Mascotas Publicadas</h2>
+        <% if @user.pets.any? %>
+          <ul>
+            <% @user.pets.each do |pet| %>
+              <li>
+                <%= link_to pet.name, pet_path(pet), class: "has-text-link" %>
+              </li>
+            <% end %>
+          </ul>
+        <% else %>
+          <p>No has publicado mascotas aún.</p>
+        <% end %>
+      </div>
+
+      <!-- Botones de acción -->
+      <div class="card-content">
+        <div class="buttons">
+          <%= link_to "Editar Perfil", edit_user_registration_path, class: "button is-link" %>
+          <%= button_to "Salir", destroy_user_session_path, method: :delete, data: { confirm: "¿Estás seguro de que deseas salir?" }, class: "button is-danger" %>
         </div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
+
 
