@@ -16,87 +16,87 @@
   <% end %>
 
   <div class="field">
-    <%= form.label :name, class: "label" %>
+    <%= form.label :name, "Nombre de la mascota", class: "label" %>
     <div class="control">
       <%= form.text_field :name, class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :nickname, class: "label" %>
+    <%= form.label :nickname, "Apodo", class: "label" %>
     <div class="control">
       <%= form.text_field :nickname, class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :is_nickname, class: "label" %>
     <div class="control">
-      <%= form.check_box :is_nickname %>
-      <span>¿Es un apodo?</span>
+      <%= form.check_box :is_nickname, id: "is_nickname" %>
+      <label for="is_nickname">¿Es un apodo?</label>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :pet_type, class: "label" %>
-    <div class="control">
-      <%= form.text_field :pet_type, class: "input" %>
+    <%= form.label :pet_type_id, "Tipo de Mascota", class: "label" %>
+    <div class="control has-icons-left">
+      <div class="select is-fullwidth">
+        <%= form.collection_select :pet_type_id, PetType.all, :id, :name %>
+      </div>
+      <span class="icon is-left">
+        <i class="fas fa-paw"></i>
+      </span>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :description, class: "label" %>
+    <%= form.label :description, "Descripción", class: "label" %>
     <div class="control">
       <%= form.text_area :description, class: "textarea" %>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :found_on, class: "label" %>
+    <%= form.label :found_on, "Fecha en que fue encontrada", class: "label" %>
     <div class="control">
       <%= form.date_field :found_on, class: "input" %>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :city, class: "label" %>
-    <div class="control">
-      <%= form.text_field :city, class: "input" %>
+    <%= form.label :city_id, "Ciudad", class: "label" %>
+    <div class="control has-icons-left">
+      <div class="select is-fullwidth">
+        <%= form.collection_select :city_id, City.all, :id, :name %>
+      </div>
+      <span class="icon is-left">
+        <i class="fas fa-city"></i>
+      </span>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :qualities, class: "label" %>
+    <%= form.label :quality_ids, "Cualidades", class: "label" %>
     <div class="control">
-      <%= form.text_area :qualities, class: "textarea" %>
+      <div class="select is-multiple">
+        <%= form.collection_select :quality_ids, Quality.all, :id, :name, { include_hidden: false }, { multiple: true } %>
+      </div>
     </div>
   </div>
 
   <div class="field">
-    <%= form.label :contact_name, class: "label" %>
-    <div class="control">
-      <%= form.text_field :contact_name, class: "input" %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :contact_email, class: "label" %>
-    <div class="control">
-      <%= form.text_field :contact_email, class: "input" %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :contact_phone, class: "label" %>
-    <div class="control">
-      <%= form.text_field :contact_phone, class: "input" %>
-    </div>
-  </div>
-
-  <div class="field">
-    <%= form.label :user_id, class: "label" %>
-    <div class="control">
-      <%= form.text_field :user_id, class: "input" %>
+    <%= form.label :photos, "Fotos de la mascota", class: "label" %>
+    <div class="file has-name is-fullwidth">
+      <label class="file-label">
+        <%= form.file_field :photos, multiple: true, class: "file-input" %>
+        <span class="file-cta">
+          <span class="file-icon">
+            <i class="fas fa-upload"></i>
+          </span>
+          <span class="file-label">
+            Selecciona imágenes…
+          </span>
+        </span>
+      </label>
     </div>
   </div>
 

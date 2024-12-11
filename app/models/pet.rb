@@ -1,6 +1,9 @@
 # rubocop:disable Layout/SpaceInsideArrayLiteralBrackets
 class Pet < ApplicationRecord
   belongs_to :user
+  belongs_to :pet_type
+  belongs_to :city
+  has_and_belongs_to_many :qualities
   has_many_attached :images
 
   # Imagen por defecto si no se suben imágenes

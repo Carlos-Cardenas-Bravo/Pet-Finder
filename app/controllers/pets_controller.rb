@@ -1,5 +1,5 @@
 class PetsController < ApplicationController
-  before_action :set_pet, only: %i[ show edit update destroy ]
+  before_action :set_pet, only: %i[show edit update destroy]
 
   # GET /pets or /pets.json
   def index
@@ -21,7 +21,12 @@ class PetsController < ApplicationController
 
   # POST /pets or /pets.json
   def create
-    @pet = Pet.new(pet_params)
+    @pet = current_user.pets.new(pet_params)
+
+    # Assign contact information from the current user
+    @pet.contact_name = current_user.nombre
+    @pet.contact_email = current_user.email
+    @pet.contact_phone = current_user.phone
 
     respond_to do |format|
       if @pet.save
@@ -58,13 +63,14 @@ class PetsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_pet
-      @pet = Pet.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def pet_params
-      params.require(:pet).permit(:name, :nickname, :is_nickname, :pet_type, :description, :found_on, :city, :qualities, :contact_name, :contact_email, :contact_phone, :user_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_pet
+    @pet = Pet.find(params[:id])
+  end
+
+  # Only allow a list of trusted parameters through.
+  def pet_params
+    params.require(:pet).permit(:name, :nickname, :is_nickname, :pet_type_id, :description, :found_on, :city_id, quality_ids: [], photos: [])
+  end
 end

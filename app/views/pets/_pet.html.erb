@@ -11,6 +11,14 @@
         <span class="has-text-weight-bold"><%= pet.name %></span>
       </p>
 
+      <% if pet.photos.attached? %>
+        <% pet.photos.each do |photo| %>
+          <%= image_tag photo.variant(resize_to_limit: [300, 300]), alt: "Foto de la mascota" %>
+        <% end %>
+      <% else %>
+        <%= image_tag "default_pet.png", alt: "Foto por defecto" %>
+      <% end %>
+
       <p>
         <strong>Apodo:</strong>
         <span class="has-text-weight-bold"><%= pet.nickname %></span>
