@@ -1,6 +1,15 @@
 class PetsController < ApplicationController
   before_action :set_pet, only: %i[show edit update destroy]
 
+  def search
+    query = params[:query]
+    @pets = if query.present?
+              Pet.where("name ILIKE ? OR description ILIKE ?", "%#{query}%", "%#{query}%")
+            else
+              Pet.all
+            end
+  end
+
   # GET /pets or /pets.json
   def index
     @pagy, @pets = pagy(Pet.all, items: 20)

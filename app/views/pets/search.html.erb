@@ -1,0 +1,30 @@
+<section class="section">
+    <div class="container">
+      <h1 class="title">Resultados de Búsqueda</h1>
+
+      <% if @pets.any? %>
+        <div class="columns is-multiline">
+          <% @pets.each do |pet| %>
+            <div class="column is-one-third">
+              <div class="card">
+                <div class="card-image">
+                  <% if pet.photos.attached? %>
+                    <%= image_tag pet.photos.first.variant(resize_to_limit: [300, 300]), alt: pet.name %>
+                  <% else %>
+                    <%= image_tag "default_pet.png", alt: "Foto por defecto" %>
+                  <% end %>
+                </div>
+                <div class="card-content">
+                  <p class="title is-4"><%= pet.name %></p>
+                  <p><%= truncate(pet.description, length: 100) %></p>
+                  <%= link_to "Ver más", pet_path(pet), class: "button is-primary" %>
+                </div>
+              </div>
+            </div>
+          <% end %>
+        </div>
+      <% else %>
+        <p>No se encontraron mascotas que coincidan con la búsqueda.</p>
+      <% end %>
+    </div>
+  </section>

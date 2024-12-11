@@ -5,38 +5,67 @@
         <%= image_tag "Logo2ctrn.png", alt: "Inicio", width: "30", height: "30" %>
       <% end %>
 
-      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+      <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false" data-target="navbarMenu">
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
         <span aria-hidden="true"></span>
       </a>
     </div>
 
-    <div id="navbarBasicExample" class="navbar-menu">
+    <div id="navbarMenu" class="navbar-menu">
       <div class="navbar-start">
         <a class="navbar-item" href="<%= root_path %>">Inicio</a>
-      </div>
 
-      <div class="navbar-end">
-          <div class="navbar-item">
-            <% if user_signed_in? %>
-              <p>Bienvenido a Pet Finder, <%= current_user.nombre %></p>
-              <div class="buttons">
-                <!-- Enlace para modificar perfil -->
-                <%= link_to 'Modificar Perfil', edit_user_registration_path, class: 'button is-link' %>
-                <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete, class: 'button is-light' %>
-              </div>
-            <% else %>
-              <div class="buttons">
-                <%= link_to 'Regístrate', new_user_registration_path, class: 'button is-primary' %>
-                <%= link_to 'Iniciar sesión', new_user_session_path, class: 'button is-light' %>
-              </div>
-            <% end %>
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Mascotas</a>
+          <div class="navbar-dropdown">
+            <%= link_to 'Listado de Mascotas', pets_path, class: 'navbar-item' %>
+            <%= link_to 'Registrar Nueva Mascota', new_pet_path, class: 'navbar-item' %>
+          </div>
+        </div>
+
+        <div class="navbar-item has-dropdown is-hoverable">
+          <a class="navbar-link">Usuarios</a>
+          <div class="navbar-dropdown">
+            <%= link_to 'Editar Perfil', edit_user_registration_path, class: 'navbar-item' %>
           </div>
         </div>
       </div>
+
+      <div class="navbar-end">
+        <div class="navbar-item">
+          <form action="<%= search_pets_path %>" method="get" class="navbar-item">
+            <div class="field has-addons">
+              <div class="control">
+                <input class="input" type="text" name="query" placeholder="Buscar mascotas...">
+              </div>
+              <div class="control">
+                <button type="submit" class="button is-link">Buscar</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <div class="navbar-item">
+          <% if user_signed_in? %>
+          <div class="navbar-item has-dropdown is-hoverable">
+            <a class="navbar-link">Hola, <%= current_user.nombre %></a>
+              <div class="navbar-dropdown is-right">
+                <%= link_to 'Mi Perfil', user_profile_path, class: 'navbar-item' %>
+                <%= button_to 'Cerrar sesión', destroy_user_session_path, method: :delete, class: 'navbar-item button is-danger' %>
+              </div>
+          </div>
+          <% else %>
+            <div class="buttons">
+              <%= link_to 'Regístrate', new_user_registration_path, class: 'button is-primary' %>
+              <%= link_to 'Iniciar sesión', new_user_session_path, class: 'button is-light' %>
+            </div>
+          <% end %>
+        </div>
+      </div>
     </div>
-  </nav>
+  </div>
+</nav>
 
 <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -46,7 +75,7 @@
     // Check if there are any navbar burgers
     if ($navbarBurgers.length > 0) {
       // Add a click event on each of them
-      $navbarBurgers.forEach( el => {
+      $navbarBurgers.forEach(el => {
         el.addEventListener('click', () => {
           // Get the target from the "data-target" attribute
           const target = el.dataset.target;
@@ -60,3 +89,4 @@
     }
   });
 </script>
+
