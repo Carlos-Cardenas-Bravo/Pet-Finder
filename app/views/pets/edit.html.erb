@@ -1,0 +1,18 @@
+<% content_for :title, "Editando Mascota" %>
+
+<section class="section">
+  <div class="container">
+    <h1 class="title is-3 has-text-centered">Editando Mascota</h1>
+
+    <!-- Render del Formulario -->
+    <div class="box">
+      <%= render "form", pet: @pet %>
+    </div>
+
+    <!-- Navegación -->
+    <div class="buttons is-centered mt-4">
+      <%= link_to "Mostrar esta Mascota", @pet, class: "button is-link" %>
+      <%= link_to "Volver al listado", pets_path, class: "button is-light" %>
+    </div>
+  </div>
+</section>

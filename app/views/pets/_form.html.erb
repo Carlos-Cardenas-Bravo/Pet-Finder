@@ -1,0 +1,108 @@
+<%= form_with(model: pet, local: true, class: "box") do |form| %>
+  <% if pet.errors.any? %>
+    <article class="message is-danger">
+      <div class="message-header">
+        <p>Errores</p>
+      </div>
+      <div class="message-body">
+        <h2><%= pluralize(pet.errors.count, "error") %> impidieron guardar esta mascota:</h2>
+        <ul>
+          <% pet.errors.each do |error| %>
+            <li><%= error.full_message %></li>
+          <% end %>
+        </ul>
+      </div>
+    </article>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name, class: "label" %>
+    <div class="control">
+      <%= form.text_field :name, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :nickname, class: "label" %>
+    <div class="control">
+      <%= form.text_field :nickname, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :is_nickname, class: "label" %>
+    <div class="control">
+      <%= form.check_box :is_nickname %>
+      <span>¿Es un apodo?</span>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :pet_type, class: "label" %>
+    <div class="control">
+      <%= form.text_field :pet_type, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :description, class: "label" %>
+    <div class="control">
+      <%= form.text_area :description, class: "textarea" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :found_on, class: "label" %>
+    <div class="control">
+      <%= form.date_field :found_on, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :city, class: "label" %>
+    <div class="control">
+      <%= form.text_field :city, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :qualities, class: "label" %>
+    <div class="control">
+      <%= form.text_area :qualities, class: "textarea" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :contact_name, class: "label" %>
+    <div class="control">
+      <%= form.text_field :contact_name, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :contact_email, class: "label" %>
+    <div class="control">
+      <%= form.text_field :contact_email, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :contact_phone, class: "label" %>
+    <div class="control">
+      <%= form.text_field :contact_phone, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <%= form.label :user_id, class: "label" %>
+    <div class="control">
+      <%= form.text_field :user_id, class: "input" %>
+    </div>
+  </div>
+
+  <div class="field">
+    <div class="control">
+      <%= form.submit "Guardar Mascota", class: "button is-primary" %>
+    </div>
+  </div>
+<% end %>

@@ -1,0 +1,74 @@
+<div id="<%= dom_id pet %>" class="card mb-5">
+  <header class="card-header">
+    <p class="card-header-title">
+      Información de la Mascota
+    </p>
+  </header>
+  <div class="card-content">
+    <div class="content">
+      <p>
+        <strong>Nombre:</strong>
+        <span class="has-text-weight-bold"><%= pet.name %></span>
+      </p>
+
+      <p>
+        <strong>Apodo:</strong>
+        <span class="has-text-weight-bold"><%= pet.nickname %></span>
+      </p>
+
+      <p>
+        <strong>¿Es apodo?:</strong>
+        <span class="has-text-weight-bold"><%= pet.is_nickname ? "Sí" : "No" %></span>
+      </p>
+
+      <p>
+        <strong>Tipo de mascota:</strong>
+        <span class="has-text-weight-bold"><%= pet.pet_type %></span>
+      </p>
+
+      <p>
+        <strong>Descripción:</strong>
+        <span><%= pet.description %></span>
+      </p>
+
+      <p>
+        <strong>Fecha encontrada:</strong>
+        <span class="has-text-weight-bold"><%= pet.found_on %></span>
+      </p>
+
+      <p>
+        <strong>Ciudad:</strong>
+        <span class="has-text-weight-bold"><%= pet.city %></span>
+      </p>
+
+      <p>
+        <strong>Cualidades:</strong>
+        <span><%= pet.qualities %></span>
+      </p>
+
+      <p>
+        <strong>Nombre de contacto:</strong>
+        <span class="has-text-weight-bold"><%= pet.contact_name %></span>
+      </p>
+
+      <p>
+        <strong>Email de contacto:</strong>
+        <span class="has-text-weight-bold"><%= mail_to pet.contact_email %></span>
+      </p>
+
+      <p>
+        <strong>Teléfono de contacto:</strong>
+        <span class="has-text-weight-bold"><%= pet.contact_phone %></span>
+      </p>
+
+      <p>
+        <strong>Usuario:</strong>
+        <span class="has-text-weight-bold"><%= User.find(pet.user_id).nombre if pet.user_id %></span>
+      </p>
+    </div>
+  </div>
+  <footer class="card-footer">
+    <%= link_to "Editar", edit_pet_path(pet), class: "card-footer-item" %>
+    <%= link_to "Eliminar", pet_path(pet), method: :delete, data: { confirm: "¿Estás seguro?" }, class: "card-footer-item has-text-danger" %>
+  </footer>
+</div>

@@ -1,0 +1,29 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  nickname: MyString
+  is_nickname: false
+  pet_type: MyString
+  description: MyText
+  found_on: 2024-12-10
+  city: MyString
+  qualities: MyText
+  contact_name: MyString
+  contact_email: MyString
+  contact_phone: MyString
+  user: one
+
+two:
+  name: MyString
+  nickname: MyString
+  is_nickname: false
+  pet_type: MyString
+  description: MyText
+  found_on: 2024-12-10
+  city: MyString
+  qualities: MyText
+  contact_name: MyString
+  contact_email: MyString
+  contact_phone: MyString
+  user: two

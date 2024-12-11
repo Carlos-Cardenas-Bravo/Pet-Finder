@@ -1,0 +1,16 @@
+<section class="section">
+  <div class="container">
+    <!-- Mostrar los detalles de la mascota -->
+    <div class="box">
+      <%= render @pet %>
+    </div>
+
+    <!-- Opciones de navegación y acciones -->
+    <div class="buttons is-centered mt-4">
+      <%= link_to "Editar esta Mascota", edit_pet_path(@pet), class: "button is-link" %>
+      <%= link_to "Volver al Listado", pets_path, class: "button is-light" %>
+      <%= button_to "Eliminar esta Mascota", @pet, method: :delete, data: { confirm: "¿Estás seguro?" }, class: "button is-danger" %>
+    </div>
+  </div>
+</section>
+
