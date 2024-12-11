@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2024_12_11_130126) do
+ActiveRecord::Schema[7.2].define(version: 2024_12_11_144530) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -58,10 +58,8 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_11_130126) do
     t.string "name"
     t.string "nickname"
     t.boolean "is_nickname"
-    t.string "pet_type"
     t.text "description"
     t.date "found_on"
-    t.string "city"
     t.text "qualities"
     t.string "contact_name"
     t.string "contact_email"
@@ -69,12 +67,18 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_11_130126) do
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "pet_type_id"
+    t.bigint "city_id"
+    t.index ["city_id"], name: "index_pets_on_city_id"
+    t.index ["pet_type_id"], name: "index_pets_on_pet_type_id"
     t.index ["user_id"], name: "index_pets_on_user_id"
   end
 
   create_table "pets_qualities", id: false, force: :cascade do |t|
     t.bigint "pet_id", null: false
     t.bigint "quality_id", null: false
+    t.index ["pet_id", "quality_id"], name: "index_pets_qualities_on_pet_id_and_quality_id", unique: true
+    t.index ["quality_id", "pet_id"], name: "index_pets_qualities_on_quality_id_and_pet_id", unique: true
   end
 
   create_table "qualities", force: :cascade do |t|
@@ -100,5 +104,7 @@ ActiveRecord::Schema[7.2].define(version: 2024_12_11_130126) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "pets", "cities"
+  add_foreign_key "pets", "pet_types"
   add_foreign_key "pets", "users"
 end

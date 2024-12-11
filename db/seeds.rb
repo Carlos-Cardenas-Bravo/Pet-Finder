@@ -1,5 +1,7 @@
 require 'csv'
 require 'faker'
+require 'httparty'
+require 'open-uri'
 
 =begin
 # Eliminar datos existentes
@@ -36,7 +38,7 @@ admin.profile_image.attach(io: File.open(image_path), filename: "default_profile
 puts "Administrador creado con éxito con imagen de perfil predeterminada."
 
 puts "Seed completado con éxito."
-=end
+
 
 # Crear tipos de mascotas
 puts "Creando tipos de mascotas..."
@@ -78,3 +80,70 @@ qualities.each do |quality|
   Quality.find_or_create_by!(name: quality)
 end
 puts "Cualidades creadas con éxito."
+
+=end
+
+# Eliminar mascotas existentes
+puts "Eliminando mascotas existentes..."
+Pet.destroy_all
+
+# URL base de la API de Pexels
+PEXELS_API_URL = "https://api.pexels.com/v1/search"
+
+# Método para obtener fotos de mascotas desde Pexels
+def fetch_pet_photos
+  headers = { "Authorization" => ENV["PEXELS_API_KEY"] }
+  response = HTTParty.get(PEXELS_API_URL, headers: headers, query: { query: "pets", per_page: 25 })
+
+  if response.success?
+    response["photos"].map { |photo| photo["src"]["medium"] }
+  else
+    puts "Error al obtener fotos de Pexels: #{response.body}"
+    []
+  end
+end
+
+# Obtener fotos de Pexels
+puts "Obteniendo fotos de Pexels..."
+photos = fetch_pet_photos
+if photos.empty?
+  puts "No se obtuvieron fotos. Por favor, revisa tu clave de API."
+  exit
+end
+
+# Crear 25 mascotas con fotos aleatorias y datos simulados
+puts "Creando mascotas..."
+photos.each_with_index do |photo_url, index|
+  begin
+    pet = Pet.create!(
+      name: Faker::Creature::Dog.name,
+      nickname: Faker::Creature::Dog.sound,
+      is_nickname: [true, false].sample,
+      pet_type_id: PetType.all.sample.id, # Esto selecciona un ID válido de PetType
+      description: Faker::Lorem.paragraph,
+      found_on: Faker::Date.backward(days: 30),
+      city: City.all.sample, # Asocia directamente la ciudad
+      qualities: Quality.all.sample(3), # Asocia cualidades directamente
+      contact_email: Faker::Internet.unique.email, # Asegura correos válidos
+      user: User.all.sample
+    )
+
+    # Asignar cualidades de forma única
+    unique_qualities = Quality.all.sample(3)
+    unique_qualities.each do |quality|
+      pet.qualities << quality unless pet.qualities.include?(quality)
+    end
+
+    # Adjuntar foto desde la URL
+    file = URI.open(photo_url)
+    pet.photos.attach(io: file, filename: "photo_#{index}.jpg", content_type: "image/jpeg")
+
+    puts "Mascota #{pet.name} creada con éxito."
+  rescue ActiveRecord::RecordInvalid => e
+    puts "Error creando mascota: #{e.message}"
+  rescue StandardError => e
+    puts "Error general: #{e.message}"
+  end
+end
+
+puts "25 mascotas creadas con fotos de Pexels."
